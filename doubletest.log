@@ -1,0 +1,375 @@
+|j|☆marcer003
+|j|☆Siyya
+|t:|1773929484
+|gametype|doubles
+|player|p1|marcer003|drayden|
+|player|p2|Siyya|cynthia|
+|gen|9
+|tier|[Gen 9] NatDex 6v6 Doubles Draft
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Endless Battle Clause: Forcing endless ss battles is banned
+|rule|HP Percentage Mod: HP is shown in percentages
+|clearpoke
+|poke|p1|Grimmsnarl, M|
+|poke|p1|Fezandipiti, M|
+|poke|p1|Weavile, M|
+|poke|p1|Skarmory, F|
+|poke|p1|Garchomp, F|
+|poke|p1|Arboliva, F|
+|poke|p2|Ambipom, F|
+|poke|p2|Rotom-Heat|
+|poke|p2|Corviknight, M|
+|poke|p2|Primarina, M|
+|poke|p2|Gastrodon, F|
+|poke|p2|Scrafty, F|
+|teampreview
+|
+|t:|1773929502
+|teamsize|p1|6
+|teamsize|p2|6
+|start
+|switch|p1a: Weavile|Weavile, M|100/100
+|switch|p1b: Skarmory|Skarmory, F|100/100
+|switch|p2a: HauDrauf|Ambipom, F|100/100
+|switch|p2b: Corviknight|Corviknight, M|100/100
+|-ability|p1a: Weavile|Pressure
+|turn|1
+|
+|t:|1773929574
+|move|p2a: HauDrauf|Protect|p2a: HauDrauf
+|-singleturn|p2a: HauDrauf|Protect
+|move|p1a: Weavile|Fake Out|p2a: HauDrauf
+|-activate|p2a: HauDrauf|move: Protect
+|move|p1b: Skarmory|Iron Defense|p1b: Skarmory
+|-boost|p1b: Skarmory|def|2
+|move|p2b: Corviknight|Tailwind|p2b: Corviknight
+|-sidestart|p2: Siyya|move: Tailwind
+|m
+s
+o
+h
+o
+|upkeep
+|turn|2
+|
+|t:|1773929611
+|move|p1a: Weavile|Fake Out||[still]
+|-hint|Fake Out only works on your first turn out.
+|-fail|p1a: Weavile
+|move|p2a: HauDrauf|U-turn|p1a: Weavile
+|-supereffective|p1a: Weavile
+|-crit|p1a: Weavile
+|-enditem|p1a: Weavile|Focus Sash
+|-damage|p1a: Weavile|1/100
+|
+|t:|1773929630
+|switch|p2a: Rotom|Rotom-Heat|100/100|[from] U-turn
+|move|p2b: Corviknight|Iron Defense|p2b: Corviknight
+|-boost|p2b: Corviknight|def|2
+|move|p1b: Skarmory|Body Press|p2b: Corviknight
+|-crit|p2b: Corviknight
+|-damage|p2b: Corviknight|49/100
+|-damage|p1b: Skarmory|84/100|[from] item: Rocky Helmet|[of] p2b: Corviknight
+|
+|upkeep
+|turn|3
+|
+|t:|1773929674
+|switch|p1a: Garchomp|Garchomp, F|100/100
+|switch|p1b: Fezandipiti|Fezandipiti, M|100/100
+|move|p2a: Rotom|Overheat|p1b: Fezandipiti
+|-damage|p1b: Fezandipiti|61/100
+|-unboost|p2a: Rotom|spa|2
+|move|p2b: Corviknight|Body Press|p1a: Garchomp
+|-damage|p1a: Garchomp|46/100
+|-damage|p2b: Corviknight|37/100|[from] ability: Rough Skin|[of] p1a: Garchomp
+|-damage|p2b: Corviknight|20/100|[from] item: Rocky Helmet|[of] p1a: Garchomp
+|
+|upkeep
+|turn|4
+|
+|t:|1773929702
+|move|p2a: Rotom|Volt Switch|p1b: Fezandipiti
+|-damage|p1b: Fezandipiti|51/100
+|
+|t:|1773929722
+|switch|p2a: Gastrodon|Gastrodon, F|100/100|[from] Volt Switch
+|move|p2b: Corviknight|Roost|p2b: Corviknight
+|-heal|p2b: Corviknight|70/100
+|-singleturn|p2b: Corviknight|move: Roost
+|move|p1a: Garchomp|Stone Edge|p2a: Gastrodon|[miss]
+|-miss|p1a: Garchomp|p2a: Gastrodon
+|move|p1b: Fezandipiti|Heat Wave|p2a: Gastrodon|[spread] p2a,p2b
+|-resisted|p2a: Gastrodon
+|-supereffective|p2b: Corviknight
+|-damage|p2a: Gastrodon|95/100
+|-damage|p2b: Corviknight|40/100
+|-status|p2a: Gastrodon|tox|[from] ability: Toxic Chain|[of] p1b: Fezandipiti
+|
+|-heal|p2a: Gastrodon|100/100 tox|[from] item: Leftovers
+|-damage|p2a: Gastrodon|94/100 tox|[from] psn
+|-sideend|p2: Siyya|move: Tailwind
+|upkeep
+|turn|5
+|
+|t:|1773929763
+|switch|p1a: Arboliva|Arboliva, F|100/100
+|move|p1b: Fezandipiti|Heat Wave|p2a: Gastrodon|[spread] p2a,p2b
+|-resisted|p2a: Gastrodon
+|-supereffective|p2b: Corviknight
+|-damage|p2a: Gastrodon|89/100 tox
+|-damage|p2b: Corviknight|9/100
+|move|p2b: Corviknight|Roost|p2b: Corviknight
+|-heal|p2b: Corviknight|59/100
+|-singleturn|p2b: Corviknight|move: Roost
+|move|p2a: Gastrodon|Earth Power|p1b: Fezandipiti
+|-supereffective|p1b: Fezandipiti
+|-damage|p1b: Fezandipiti|15/100
+|
+|-heal|p2a: Gastrodon|95/100 tox|[from] item: Leftovers
+|-damage|p2a: Gastrodon|83/100 tox|[from] psn
+|upkeep
+|turn|6
+|
+|t:|1773929808
+|move|p1b: Fezandipiti|Heat Wave|p2a: Gastrodon|[spread] p2a,p2b
+|-resisted|p2a: Gastrodon
+|-supereffective|p2b: Corviknight
+|-damage|p2a: Gastrodon|78/100 tox
+|-damage|p2b: Corviknight|27/100
+|move|p2b: Corviknight|Roost|p2b: Corviknight
+|-heal|p2b: Corviknight|77/100
+|-singleturn|p2b: Corviknight|move: Roost
+|move|p1a: Arboliva|Giga Drain|p2a: Gastrodon
+|-supereffective|p2a: Gastrodon
+|-damage|p2a: Gastrodon|0 fnt
+|faint|p2a: Gastrodon
+|
+|upkeep
+|
+|t:|1773929823
+|switch|p2a: HauDrauf|Ambipom, F|100/100
+|turn|7
+|
+|t:|1773929894
+|-terastallize|p2a: HauDrauf|Normal
+|-terastallize|p1a: Arboliva|Fire
+|move|p2a: HauDrauf|Fake Out|p1a: Arboliva
+|-damage|p1a: Arboliva|66/100
+|-fieldstart|move: Grassy Terrain|[from] ability: Seed Sower|[of] p1a: Arboliva
+|move|p1b: Fezandipiti|Heat Wave|p2b: Corviknight|[spread] p2a,p2b
+|-supereffective|p2b: Corviknight
+|-damage|p2a: HauDrauf|75/100
+|-damage|p2b: Corviknight|47/100
+|move|p2b: Corviknight|Body Press|p1b: Fezandipiti
+|-resisted|p1b: Fezandipiti
+|-damage|p1b: Fezandipiti|0 fnt
+|faint|p1b: Fezandipiti
+|cant|p1a: Arboliva|flinch
+|
+|-heal|p2a: HauDrauf|81/100|[from] Grassy Terrain
+|-heal|p1a: Arboliva|72/100|[from] Grassy Terrain
+|upkeep
+|
+|t:|1773929911
+|switch|p1b: Grimmsnarl|Grimmsnarl, M|100/100
+|turn|8
+|
+|t:|1773929931
+|move|p1b: Grimmsnarl|Reflect|p1b: Grimmsnarl
+|-sidestart|p1: marcer003|Reflect
+|move|p2a: HauDrauf|Tail Slap|p1a: Arboliva
+|-damage|p1a: Arboliva|58/100
+|-damage|p1a: Arboliva|44/100
+|-enditem|p1a: Arboliva|Sitrus Berry|[eat]
+|-heal|p1a: Arboliva|69/100|[from] item: Sitrus Berry
+|-damage|p1a: Arboliva|56/100
+|-damage|p1a: Arboliva|44/100
+|-hitcount|p1a: Arboliva|4
+|move|p2b: Corviknight|Roost|p2b: Corviknight
+|-heal|p2b: Corviknight|97/100
+|-singleturn|p2b: Corviknight|move: Roost
+|move|p1a: Arboliva|Tera Blast|p2b: Corviknight|[anim] Tera Blast Fire
+|-supereffective|p2b: Corviknight
+|-damage|p2b: Corviknight|16/100
+|
+|-heal|p2a: HauDrauf|87/100|[from] Grassy Terrain
+|-heal|p2b: Corviknight|22/100|[from] Grassy Terrain
+|-heal|p1a: Arboliva|50/100|[from] Grassy Terrain
+|upkeep
+|turn|9
+|
+|t:|1773929994
+|move|p1b: Grimmsnarl|Light Screen|p1b: Grimmsnarl
+|-sidestart|p1: marcer003|move: Light Screen
+|move|p2a: HauDrauf|Tail Slap|p1a: Arboliva
+|-damage|p1a: Arboliva|38/100
+|-damage|p1a: Arboliva|23/100
+|-damage|p1a: Arboliva|9/100
+|-damage|p1a: Arboliva|0 fnt
+|faint|p1a: Arboliva
+|-hitcount|p1: Arboliva|4
+|move|p2b: Corviknight|Body Press|p1b: Grimmsnarl
+|-damage|p1b: Grimmsnarl|63/100
+|
+|-heal|p2a: HauDrauf|94/100|[from] Grassy Terrain
+|-heal|p1b: Grimmsnarl|69/100|[from] Grassy Terrain
+|upkeep
+|
+|t:|1773930101
+|switch|p1a: Garchomp|Garchomp, F|46/100
+|turn|10
+|
+|t:|1773930203
+|switch|p1b: Skarmory|Skarmory, F|84/100
+|move|p1a: Garchomp|Protect|p1a: Garchomp
+|-singleturn|p1a: Garchomp|Protect
+|move|p2a: HauDrauf|U-turn|p1b: Skarmory
+|-resisted|p1b: Skarmory
+|-damage|p1b: Skarmory|82/100
+|-ability|p1b: Skarmory|Weak Armor|boost
+|-unboost|p1b: Skarmory|def|1
+|-boost|p1b: Skarmory|spe|2
+|
+|t:|1773930223
+|switch|p2a: Rotom|Rotom-Heat|100/100|[from] U-turn
+|move|p2b: Corviknight|Roost|p2b: Corviknight
+|-heal|p2b: Corviknight|72/100
+|-singleturn|p2b: Corviknight|move: Roost
+|
+|-heal|p1a: Garchomp|52/100|[from] Grassy Terrain
+|-heal|p2b: Corviknight|78/100|[from] Grassy Terrain
+|upkeep
+|turn|11
+|
+|t:|1773930267
+|switch|p1b: Grimmsnarl|Grimmsnarl, M|69/100
+|move|p1a: Garchomp|Stone Edge|p2a: Rotom
+|-supereffective|p2a: Rotom
+|-damage|p2a: Rotom|15/100
+|move|p2a: Rotom|Volt Switch|p1b: Grimmsnarl
+|-damage|p1b: Grimmsnarl|51/100
+|
+|t:|1773930285
+|switch|p2a: Primarina|Primarina, M|100/100|[from] Volt Switch
+|move|p2b: Corviknight|Iron Defense|p2b: Corviknight
+|-boost|p2b: Corviknight|def|2
+|
+|-heal|p1a: Garchomp|58/100|[from] Grassy Terrain
+|-heal|p1b: Grimmsnarl|57/100|[from] Grassy Terrain
+|-fieldend|move: Grassy Terrain
+|upkeep
+|turn|12
+|
+|t:|1773930384
+|switch|p1b: Skarmory|Skarmory, F|82/100
+|move|p1a: Garchomp|Poison Jab|p2a: Primarina
+|-supereffective|p2a: Primarina
+|-damage|p2a: Primarina|36/100
+|move|p2b: Corviknight|Tailwind|p2b: Corviknight
+|-sidestart|p2: Siyya|move: Tailwind
+|move|p2a: Primarina|Dazzling Gleam|p1a: Garchomp|[spread] p1a,p1b
+|-supereffective|p1a: Garchomp
+|-resisted|p1b: Skarmory
+|-damage|p1a: Garchomp|6/100
+|-damage|p1b: Skarmory|68/100
+|
+|upkeep
+|turn|13
+|
+|t:|1773930406
+|move|p2a: Primarina|Protect|p2a: Primarina
+|-singleturn|p2a: Primarina|Protect
+|move|p2b: Corviknight|Body Press|p1b: Skarmory
+|-damage|p1b: Skarmory|35/100
+|-ability|p1b: Skarmory|Weak Armor|boost
+|-unboost|p1b: Skarmory|def|1
+|-boost|p1b: Skarmory|spe|2
+|move|p1b: Skarmory|Iron Defense|p1b: Skarmory
+|-boost|p1b: Skarmory|def|2
+|move|p1a: Garchomp|Poison Jab|p2a: Primarina
+|-activate|p2a: Primarina|move: Protect
+|
+|upkeep
+|turn|14
+|
+|t:|1773930435
+|move|p1b: Skarmory|Body Press|p2b: Corviknight
+|-damage|p2b: Corviknight|70/100
+|-damage|p1b: Skarmory|18/100|[from] item: Rocky Helmet|[of] p2b: Corviknight
+|-enditem|p1b: Skarmory|Figy Berry|[eat]
+|-heal|p1b: Skarmory|51/100|[from] item: Figy Berry
+|move|p2b: Corviknight|Body Press|p1a: Garchomp
+|-damage|p1a: Garchomp|0 fnt
+|-damage|p2b: Corviknight|57/100|[from] ability: Rough Skin|[of] p1a: Garchomp
+|-damage|p2b: Corviknight|41/100|[from] item: Rocky Helmet|[of] p1a: Garchomp
+|faint|p1a: Garchomp
+|move|p2a: Primarina|Dazzling Gleam|p1b: Skarmory
+|-resisted|p1b: Skarmory
+|-damage|p1b: Skarmory|30/100
+|
+|upkeep
+|
+|t:|1773930450
+|switch|p1a: Weavile|Weavile, M|1/100
+|-ability|p1a: Weavile|Pressure
+|turn|15
+|
+|t:|1773930464
+|move|p1b: Skarmory|Roost|p1b: Skarmory
+|-heal|p1b: Skarmory|80/100
+|-singleturn|p1b: Skarmory|move: Roost
+|move|p1a: Weavile|Knock Off|p2a: Primarina
+|-resisted|p2a: Primarina
+|-damage|p2a: Primarina|5/100
+|-enditem|p2a: Primarina|Throat Spray|[from] move: Knock Off|[of] p1a: Weavile
+|move|p2b: Corviknight|Body Press|p1b: Skarmory
+|-supereffective|p1b: Skarmory
+|-damage|p1b: Skarmory|34/100
+|-ability|p1b: Skarmory|Weak Armor|boost
+|-unboost|p1b: Skarmory|def|1
+|-boost|p1b: Skarmory|spe|2
+|move|p2a: Primarina|Dazzling Gleam|p1b: Skarmory|[spread] p1a,p1b
+|-supereffective|p1a: Weavile
+|-resisted|p1b: Skarmory
+|-damage|p1a: Weavile|0 fnt
+|-damage|p1b: Skarmory|17/100
+|faint|p1a: Weavile
+|
+|-sideend|p1: marcer003|Reflect
+|-sideend|p2: Siyya|move: Tailwind
+|upkeep
+|
+|t:|1773930481
+|switch|p1a: Grimmsnarl|Grimmsnarl, M|57/100
+|turn|16
+|
+|t:|1773930497
+|move|p1b: Skarmory|Roost|p1b: Skarmory
+|-heal|p1b: Skarmory|67/100
+|-singleturn|p1b: Skarmory|move: Roost
+|move|p2b: Corviknight|Body Press|p1b: Skarmory
+|-supereffective|p1b: Skarmory
+|-damage|p1b: Skarmory|0 fnt
+|faint|p1b: Skarmory
+|move|p2a: Primarina|Dazzling Gleam|p1a: Grimmsnarl
+|-supereffective|p1a: Grimmsnarl
+|-damage|p1a: Grimmsnarl|3/100
+|move|p1a: Grimmsnarl|Spirit Break|p2a: Primarina
+|-damage|p2a: Primarina|0 fnt
+|faint|p2a: Primarina
+|
+|-sideend|p1: marcer003|move: Light Screen
+|upkeep
+|
+|t:|1773930518
+|switch|p2a: HauDrauf|Ambipom, F, tera:Normal|94/100
+|turn|17
+|
+|t:|1773930536
+|move|p2a: HauDrauf|Tail Slap|p1a: Grimmsnarl
+|-damage|p1a: Grimmsnarl|0 fnt
+|faint|p1a: Grimmsnarl
+|-hitcount|p1: Grimmsnarl|1
+|
+|win|Siyya

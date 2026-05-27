@@ -1,203 +1,241 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Showdown Log Viewer</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; background-color: #f4f4f9; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-        input, select, button { padding: 10px; margin: 5px 0; width: 100%; box-sizing: border-box; }
-        button { background-color: #2d89ef; color: white; border: none; cursor: pointer; font-weight: bold; }
-        button:hover { background-color: #1e5bb8; }
-        #output { margin-top: 20px; white-space: pre-wrap; background: #eee; padding: 15px; border-radius: 4px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h2>Replay Log Fetcher</h2>
-    
-    <label for="urlInput">Log URL:</label>
-    <input type="text" id="urlInput" placeholder="https://replay.pokemonshowdown.com/...">
-
-    <label for="versionSelect">Select Format/Version:</label>
-    <select id="versionSelect">
-        <option value="Null"></option>
-        <option value="Season 4">Season 4</option>
-        <option value="Test">Test</option>
-    </select>
-
-    <button onclick="main()">Get Log Information</button>
-
-    <div id="output">Results will appear here...</div>
-</div>
-
-<script>
-
-
-    function findplayersinrows(rows) //TODO check if "|j|☆" is better than 
-    {
-        let retval = [];
-        let rowwithplayers =  rowswithpattern("|j|☆",rows);
-        output.innerText = rowwithplayers[0];
-
-        for (let i = 0; i < rowwithplayers.length;i++)
-            {
-                retval.push(rows[rowwithplayers[i]].trim().replace("|j|☆",""));
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Showdown Log Viewer</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                padding: 20px;
+                line-height: 1.6;
+                background-color: #f4f4f9;
             }
-        return retval;
-    }
+            .container {
+                max-width: 800px;
+                margin: auto;
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+            }
+            input,
+            select,
+            button {
+                padding: 10px;
+                margin: 5px 0;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            button {
+                background-color: #2d89ef;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-weight: bold;
+            }
+            button:hover {
+                background-color: #1e5bb8;
+            }
+            #output {
+                margin-top: 20px;
+                white-space: pre-wrap;
+                background: #eee;
+                padding: 15px;
+                border-radius: 4px;
+                max-height: 400px;
+                overflow-y: auto;
+                font-family: monospace;
+                font-size: 13px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Replay Log Fetcher</h2>
 
-    function rowswithpattern(pattern,rows){
-        const retval = [];
-        for (let i = 0; i <rows.length;++i)
-        {
-            let row = rows[i] 
-            if (row.search(pattern) != -1)
-                {retval.push(i);}
-        }
-        return retval;
-    }
-    function extractpokemonfromline(line){
-        return line.split("|")[3].replace(", M","").replace(", F",""); // this feels magicky but is due to the log beeing this format "|poke|p1|Grimmsnarl, M|"
-    }
+            <label for="urlInput">Log URL:</label>
+            <input
+                type="text"
+                id="urlInput"
+                placeholder="https://replay.pokemonshowdown.com/..."
+            />
 
-    function playerteams(rows){
-        let retval = [[],[]];
-        let rowsofp = rowswithpattern("|poke|",rows); //saves the index of a row not the row itself
-        console.log(rowsofp);
-        //populate the teams
-        for (let i = 0;i<rowsofp.length;++i)
-        {
-            if (rows[rowsofp[i]].search("p1") !=-1)
-                {retval[0].push(extractpokemonfromline(rows[rowsofp[i]]));} //
-            else if (rows[rowsofp[i]].search("p2") !=-1) 
-                {retval[1].push(extractpokemonfromline(rows[rowsofp[i]]));}
-            else
-                {console.log("__func__: playerteams" ,"could not attribute the following pokemon:" , rows[rowsofp[i]] );}
-        }
+            <label for="versionSelect">Select Format/Version:</label>
+            <select id="versionSelect">
+                <option value="Null"></option>
+                <option value="Season 4">Season 4</option>
+                <option value="Test">Test</option>
+            </select>
 
-        return retval;
-    }
+            <button onclick="main()">Get Log Information</button>
 
-    /**
-     * Returns an Array with indeces of Beginning of Pattern in  a given line
-     */  
-    function alloccurencesof(pattern,text) {
-        let occurences = []; 
-        let i = 0, j=0;
-        while (~(i = text.indexOf (pattern,i + pattern.length))) occurences.push(i);
-        return occurences;
-    }
+            <div id="output">Results will appear here...</div>
+        </div>
 
-    function cleanandenrichlink(replayurl){
-        replayurl = replayurl.trim();
-        if(replayurl.substring(0,"https://replay.pokemonshowdown.com/".length) != "https://replay.pokemonshowdown.com/") 
-            {
-                console.log("not valide prefix"); 
-                throw new Error("Prefix is not \"https://replay.pokemonshowdown.com/\"!");
-            } 
-        if (replayurl.substring(replayurl.length-4,replayurl.length) != ".log")
-            {return replayurl.concat(".log"); }
-        return replayurl;
-    }
+        <script>
+             /*
+            Does not work if "|" is in Username
+             */
+             function extractnamefromline(line) {
+                 return line.split("|")[2];
+             }
 
-    function outputstring(Player1,Player2,Team1,Team2,Killlist,warnings)
-    {
-        let outputstring = "Players: \n" + Player1 +"\n"+Player2 +"\n\n"+"Team of " + Player1 +": \n";
-        for (let i = 0; i< Team1.length;i++)
-        {
-            outputstring.concat(Team1[i]+"\n");
-        }
-        outputstring.concat("\n" + "Team of "+Player2 +": \n");
-        for (let i = 0; i< Team2.length;i++)
-        {
-            outputstring.concat(Team2[i]);
-        }
-        //when the rest is finished it comes here.
-        return outputstring;
-    }    
+             function extractpokemonfromline(line) {
+                 return line.split("|")[3].replace(", M", "").replace(", F", ""); // this feels magicky but is due to the log beeing this format "|poke|p1|Grimmsnarl, M|"
+             }
 
-    async function main() {
+             function analyze() {
+               class Condition {
+                   constructor(source, effect, target) {
+                       this.source = source;
+                       this.effect = effect;
+                       this.target = target;
+                   }
+                   // Method to display Conditions's details
+                   displayDetails() {
+                       console.log(
+                           `Source: ${this.source}, Effect: ${this.effect}, Target: ${this.target}`,
+                       );
+                   }
+               }
 
-        //##################This Part of the code  concerns itself with the retreaval of the log ########### 
-        const url = document.getElementById('urlInput').value;
-        const version = document.getElementById('versionSelect').value;
-        const output = document.getElementById('output');
-        let cleanur = "";
-        let data = "";
+               let Conditiontracker = [];
+               let stateDict = { Player1 ="",Player2= "",Team1: [], Team2: [], Killdict: {}, };
 
-        if (!url) {
-            alert("Please paste a link first!");
-            return;
-        }
-        try {
-            cleanurl = cleanandenrichlink(url);
-        } catch (error){
-            output.innerText = "Error: URL ist nicht valide";
-            console.error(error);
-            return;
-        }
-        output.innerText = "Fetching data...";
+               for (let i = 0; i < rows.length; i++) {
+                   let line = rows[i];
 
-        try {
-            // Note: Direct browser fetching of other domains often hits CORS blocks.
-            // If the link is a direct .log file, we attempt to fetch it.
-            const response = await fetch(cleanurl);
-            
-            if (!response.ok) throw new Error("Could not reach the URL. Check for CORS restrictions.");
+                   switch (true) {
+                       case line.includes("|player|p1|"): stateDict.Player1 = extractnamefromline(line); break;
+                       case line.includes("|player|p2|"): stateDict.Player2 = extractnamefromline(line); break;
+                       case line.includes("|switch|p1"): stateDict.Team1.push(extractpokemonfromline(line)); break;
+                       case line.includes("|switch|p2"): stateDict.Team2.push(extractpokemonfromline(line)); break;
+                       case line.includes("|poke|p1|"): stateDict.Team1.push(extractpokemonfromline(line)); break;
+                       case line.includes("|poke|p2|"): stateDict.Team2.push(extractpokemonfromline(line)); break;
+                       case line.includes("|faint|") : ; break;
+                       default:
+                           break;
+                   }
 
-            data = await response.text();
-            
-            // Basic processing: Displaying the version selected + the log content
-            output.innerText = "Successful capture of Data, beginning Processing :)";
-
-        } catch (error) {
-            output.innerText = "Error: " + error.message + 
-            "\n\nNote: Browsers often block cross-site requests (CORS). If this fails, you may need a CORS proxy or to run this on a local server.";
-            return;
-        }
+               }
 
 
+             }
 
-        //##################This pat of the Code is the analysis of the fetched data ########### 
+             function cleanandenrichlink(replayurl) {
+                 replayurl = replayurl.trim();
+                 if (
+                     replayurl.substring(0,"https://replay.pokemonshowdown.com/".length,) != "https://replay.pokemonshowdown.com/"
+                 ) {
+                     console.log("not valide prefix");
+                     throw new Error(
+                         'Prefix is not "https://replay.pokemonshowdown.com/"!',
+                     );
+                 }
+                 if (
+                     replayurl.substring(
+                         replayurl.length - 4,
+                         replayurl.length,
+                     ) != ".log"
+                 ) {
+                     return replayurl.concat(".log");
+                 }
+                 return replayurl;
+             }
 
-        console.log("Start of Processing");
-        let rows = data.split("\n");
-        //Beispiellink
-        //https://replay.pokemonshowdown.com/gen9natdex6v6doublesdraft-2562550639-gix165y8nt2qk0u4o5meb7bfmqv2bcfpw
-        //Beginning with ethe analisys of the content
-        const exceptions = ["Encore","Life Wish"];
-        //output.innerText = arrayofrows[1];
+             function outputstring(
+                 Player1,
+                 Player2,
+                 Team1,
+                 Team2,
+                 Killlist,
+                 warnings,
+             ) {
+                 let outputstring =
+                     "Players: \n" +
+                     Player1 +
+                     "\n" +
+                     Player2 +
+                     "\n\n" +
+                     "Team of " +
+                     Player1 +
+                     ": \n";
+                 for (let i = 0; i < Team1.length; i++) {
+                     outputstring.concat(Team1[i] + "\n");
+                 }
+                 outputstring.concat("\n" + "Team of " + Player2 + ": \n");
+                 for (let i = 0; i < Team2.length; i++) {
+                     outputstring.concat(Team2[i]);
+                 }
+                 //when the rest is finished it comes here.
+                 return outputstring;
+             }
 
-        let player1 = "player_one";
-        let player2 = "player_two";
+             async function main() {
+                 //##################This Part of the code  concerns itself with the retreaval of the log ###########
+                 const url = document.getElementById("urlInput").value;
+                 const version = document.getElementById("versionSelect").value;
+                 const output = document.getElementById("output");
+                 let cleanur = "";
+                 let data = "";
 
-        let Team_1 = [];
-        let Team_2 = [];
+                 if (!url) {
+                     alert("Please paste a link first!");
+                     return;
+                 }
+                 try {
+                     cleanurl = cleanandenrichlink(url);
+                 } catch (error) {
+                     output.innerText = "Error: URL ist nicht valide";
+                     console.error(error);
+                     return;
+                 }
+                 output.innerText = "Fetching data...";
 
-        let Killlist = [];
-        output.innerText = "Initialized the Defaults";
+                 try {
+                     // Note: Direct browser fetching of other domains often hits CORS blocks.
+                     // If the link is a direct .log file, we attempt to fetch it.
+                     const response = await fetch(cleanurl);
 
-        //overwrite default playerval with the actual Name :) 
-        const players = findplayersinrows(rows);
-        player1 = players[0];
-        player2 = players[1]; 
-        output.innerText = "Found Players";
+                     if (!response.ok)
+                         throw new Error(
+                             "Could not reach the URL. Check for CORS restrictions.",
+                         );
 
-        //overwrite Teams
-        const Teams = playerteams(rows);
-        Team_1 = Teams[0];
-        Team_2 = Teams[1];
-        output.innerText = "Found Teams";
+                     data = await response.text();
 
-        let warnings = [];
-        
-        output.innerText = outputstring(player1,player2,Team_1,Team_2,Killlist,warnings);
+                     // Basic processing: Displaying the version selected + the log content
+                     output.innerText =
+                         "Successful capture of Data, beginning Processing :)";
+                 } catch (error) {
+                     output.innerText =
+                         "Error: " +
+                         error.message +
+                         "\n\nNote: Browsers often block cross-site requests (CORS). If this fails, you may need a CORS proxy or to run this on a local server.";
+                     return;
+                 }
 
-    }
-</script>
+                 //##################This pat of the Code is the analysis of the fetched data ###########
 
-</body>
+                 console.log("Start of Processing");
+                 let rows = data.split("\n");
+                 //Beispiellink
+                 //https://replay.pokemonshowdown.com/gen9natdex6v6doublesdraft-2562550639-gix165y8nt2qk0u4o5meb7bfmqv2bcfpw
+                 //Beginning with ethe analisys of the content
+
+                 Results = analyze(rows);
+                 let { player1, player2, Team_1, Team_2, Killlist, warnings } = Results;
+
+
+                 output.innerText = outputstring(
+                     player1,
+                     player2,
+                     Team_1,
+                     Team_2,
+                     Killlist,
+                     warnings,
+                 );
+             }
+        </script>
+    </body>
 </html>
