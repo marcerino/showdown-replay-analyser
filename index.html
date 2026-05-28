@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Showdown Log Viewer</title>
+        <title>Showdown Analyser</title>
         <style>
             body {
                 font-family: sans-serif;
@@ -73,169 +73,222 @@
         </div>
 
         <script>
-             /*
-            Does not work if "|" is in Username
+            /*
+             * Does not work if "|" is in Username
              */
-             function extractnamefromline(line) {
-                 return line.split("|")[2];
-             }
+            function extractnamefromline(line) {
+                return line.split("|")[3];
+            }
 
-             function extractpokemonfromline(line) {
-                 return line.split("|")[3].replace(", M", "").replace(", F", ""); // this feels magicky but is due to the log beeing this format "|poke|p1|Grimmsnarl, M|"
-             }
+            function extractpokemonfromline(line) {
+                return line.split("|")[3].split(", ")[0]; // replace(", M", "").replace(", F", "") this feels magicky but is due to the log beeing this format "|poke|p1|Grimmsnarl, M|"
+            }
 
-             function analyze() {
-               class Condition {
-                   constructor(source, effect, target) {
-                       this.source = source;
-                       this.effect = effect;
-                       this.target = target;
-                   }
-                   // Method to display Conditions's details
-                   displayDetails() {
-                       console.log(
-                           `Source: ${this.source}, Effect: ${this.effect}, Target: ${this.target}`,
-                       );
-                   }
-               }
+            function killattribution(statedict, rows, index) {
+                let row = rows[index];
+                let target = extractnamefromline(row);
+            }
 
-               let Conditiontracker = [];
-               let stateDict = { Player1 ="",Player2= "",Team1: [], Team2: [], Killdict: {}, };
+            function analyze(rows) {
+                class Condition {
+                    constructor(source, effect, target) {
+                        this.source = source;
+                        this.effect = effect;
+                        this.target = target;
+                    }
+                    // Method to display Conditions's details
+                    displayDetails() {
+                        console.log(
+                            `Source: ${this.source}, Effect: ${this.effect}, Target: ${this.target}`,
+                        );
+                    }
+                }
 
-               for (let i = 0; i < rows.length; i++) {
-                   let line = rows[i];
+                let Conditiontracker = [];
+                let stateDict = {
+                    Player1: "",
+                    Player2: "",
+                    Team1: new Set(),
+                    Team2: new Set(),
+                    Killdict: {},
+                    win: "",
+                };
 
-                   switch (true) {
-                       case line.includes("|player|p1|"): stateDict.Player1 = extractnamefromline(line); break;
-                       case line.includes("|player|p2|"): stateDict.Player2 = extractnamefromline(line); break;
-                       case line.includes("|switch|p1"): stateDict.Team1.push(extractpokemonfromline(line)); break;
-                       case line.includes("|switch|p2"): stateDict.Team2.push(extractpokemonfromline(line)); break;
-                       case line.includes("|poke|p1|"): stateDict.Team1.push(extractpokemonfromline(line)); break;
-                       case line.includes("|poke|p2|"): stateDict.Team2.push(extractpokemonfromline(line)); break;
-                       case line.includes("|faint|") : ; break;
-                       default:
-                           break;
-                   }
+                for (let i = 0; i < rows.length; i++) {
+                    let line = rows[i];
 
-               }
+                    switch (true) {
+                        case line.includes("|player|p1|"):
+                            stateDict.Player1 = extractnamefromline(line);
+                            break;
+                        case line.includes("|player|p2|"):
+                            stateDict.Player2 = extractnamefromline(line);
+                            break;
+                        case line.includes("|switch|p1"):
+                            stateDict.Team1.add(extractpokemonfromline(line));
+                            break;
+                        case line.includes("|switch|p2"):
+                            stateDict.Team2.add(extractpokemonfromline(line));
+                            break;
+                        case line.includes("|poke|p1|"):
+                            stateDict.Team1.add(extractpokemonfromline(line));
+                            break;
+                        case line.includes("|poke|p2|"):
+                            stateDict.Team2.add(extractpokemonfromline(line));
+                            break;
+                        case line.includes("|faint|"):
+                            killattribution(stateDict, rows, i);
+                            break;
+                        case line.includes("|win|"):
+                            stateDict.win = line.split("|")[2];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                console.log(stateDict);
 
+                return stateDict;
+            }
 
-             }
+            function cleanandenrichlink(replayurl) {
+                replayurl = replayurl.trim();
+                if (
+                    replayurl.substring(
+                        0,
+                        "https://replay.pokemonshowdown.com/".length,
+                    ) != "https://replay.pokemonshowdown.com/"
+                ) {
+                    console.log("not valide prefix");
+                    throw new Error(
+                        'Prefix is not "https://replay.pokemonshowdown.com/"!',
+                    );
+                }
+                if (
+                    replayurl.substring(
+                        replayurl.length - 4,
+                        replayurl.length,
+                    ) != ".log"
+                ) {
+                    return replayurl.concat(".log");
+                }
+                return replayurl;
+            }
 
-             function cleanandenrichlink(replayurl) {
-                 replayurl = replayurl.trim();
-                 if (
-                     replayurl.substring(0,"https://replay.pokemonshowdown.com/".length,) != "https://replay.pokemonshowdown.com/"
-                 ) {
-                     console.log("not valide prefix");
-                     throw new Error(
-                         'Prefix is not "https://replay.pokemonshowdown.com/"!',
-                     );
-                 }
-                 if (
-                     replayurl.substring(
-                         replayurl.length - 4,
-                         replayurl.length,
-                     ) != ".log"
-                 ) {
-                     return replayurl.concat(".log");
-                 }
-                 return replayurl;
-             }
+            function outputstring(
+                Player1,
+                Player2,
+                Team1,
+                Team2,
+                Killlist,
+                warnings,
+                win,
+            ) {
+                let outputstring =
+                    "Players: \n" +
+                    Player1 +
+                    "\n" +
+                    Player2 +
+                    "\n" +
+                    "WIN: " +
+                    win +
+                    "\n\n" +
+                    "Team of " +
+                    Player1 +
+                    ": \n";
+                for (const mon of Team1) {
+                    outputstring = outputstring.concat(mon + "\n");
+                }
+                outputstring = outputstring.concat(
+                    "\n" + "Team of " + Player2 + ": \n",
+                );
+                for (const mon of Team2) {
+                    outputstring = outputstring.concat(mon + "\n");
+                }
+                //when the rest is finished it comes here.
+                return outputstring;
+            }
 
-             function outputstring(
-                 Player1,
-                 Player2,
-                 Team1,
-                 Team2,
-                 Killlist,
-                 warnings,
-             ) {
-                 let outputstring =
-                     "Players: \n" +
-                     Player1 +
-                     "\n" +
-                     Player2 +
-                     "\n\n" +
-                     "Team of " +
-                     Player1 +
-                     ": \n";
-                 for (let i = 0; i < Team1.length; i++) {
-                     outputstring.concat(Team1[i] + "\n");
-                 }
-                 outputstring.concat("\n" + "Team of " + Player2 + ": \n");
-                 for (let i = 0; i < Team2.length; i++) {
-                     outputstring.concat(Team2[i]);
-                 }
-                 //when the rest is finished it comes here.
-                 return outputstring;
-             }
+            async function main() {
+                //##################This Part of the code  concerns itself with the retreaval of the log ###########
+                const url = document.getElementById("urlInput").value;
+                const version = document.getElementById("versionSelect").value;
+                const output = document.getElementById("output");
+                let cleanur = "";
+                let data = "";
 
-             async function main() {
-                 //##################This Part of the code  concerns itself with the retreaval of the log ###########
-                 const url = document.getElementById("urlInput").value;
-                 const version = document.getElementById("versionSelect").value;
-                 const output = document.getElementById("output");
-                 let cleanur = "";
-                 let data = "";
+                if (!url) {
+                    alert("Please paste a link first!");
+                    return;
+                }
+                try {
+                    cleanurl = cleanandenrichlink(url);
+                } catch (error) {
+                    output.innerText = "Error: URL ist nicht valide";
+                    console.error(error);
+                    return;
+                }
+                output.innerText = "Fetching data...";
 
-                 if (!url) {
-                     alert("Please paste a link first!");
-                     return;
-                 }
-                 try {
-                     cleanurl = cleanandenrichlink(url);
-                 } catch (error) {
-                     output.innerText = "Error: URL ist nicht valide";
-                     console.error(error);
-                     return;
-                 }
-                 output.innerText = "Fetching data...";
+                try {
+                    // Note: Direct browser fetching of other domains often hits CORS blocks.
+                    // If the link is a direct .log file, we attempt to fetch it.
+                    const response = await fetch(cleanurl);
 
-                 try {
-                     // Note: Direct browser fetching of other domains often hits CORS blocks.
-                     // If the link is a direct .log file, we attempt to fetch it.
-                     const response = await fetch(cleanurl);
+                    if (!response.ok)
+                        throw new Error(
+                            "Could not reach the URL. Check for CORS restrictions.",
+                        );
 
-                     if (!response.ok)
-                         throw new Error(
-                             "Could not reach the URL. Check for CORS restrictions.",
-                         );
+                    data = await response.text();
 
-                     data = await response.text();
+                    // Basic processing: Displaying the version selected + the log content
+                    output.innerText =
+                        "Successful capture of Data, beginning Processing :)";
+                } catch (error) {
+                    output.innerText =
+                        "Error: " +
+                        error.message +
+                        "\n\nNote: Browsers often block cross-site requests (CORS). If this fails, you may need a CORS proxy or to run this on a local server.";
+                    return;
+                }
 
-                     // Basic processing: Displaying the version selected + the log content
-                     output.innerText =
-                         "Successful capture of Data, beginning Processing :)";
-                 } catch (error) {
-                     output.innerText =
-                         "Error: " +
-                         error.message +
-                         "\n\nNote: Browsers often block cross-site requests (CORS). If this fails, you may need a CORS proxy or to run this on a local server.";
-                     return;
-                 }
+                //##################This pat of the Code is the analysis of the fetched data ###########
 
-                 //##################This pat of the Code is the analysis of the fetched data ###########
+                console.log("Start of Processing");
+                let rows = data.split("\n");
+                //Beispiellink
+                //https://replay.pokemonshowdown.com/gen9natdex6v6doublesdraft-2562550639-gix165y8nt2qk0u4o5meb7bfmqv2bcfpw
+                //Beginning with the analisys of the content
 
-                 console.log("Start of Processing");
-                 let rows = data.split("\n");
-                 //Beispiellink
-                 //https://replay.pokemonshowdown.com/gen9natdex6v6doublesdraft-2562550639-gix165y8nt2qk0u4o5meb7bfmqv2bcfpw
-                 //Beginning with ethe analisys of the content
+                Results = analyze(rows);
+                let {
+                    Player1,
+                    Player2,
+                    Team1,
+                    Team2,
+                    Killlist,
+                    warnings,
+                    win,
+                } = Results;
 
-                 Results = analyze(rows);
-                 let { player1, player2, Team_1, Team_2, Killlist, warnings } = Results;
+                console.log("Processing Complete");
+                console.log(Team1);
 
+                for (const mon of Team1) {
+                    console.log(mon);
+                }
 
-                 output.innerText = outputstring(
-                     player1,
-                     player2,
-                     Team_1,
-                     Team_2,
-                     Killlist,
-                     warnings,
-                 );
-             }
+                output.innerText = outputstring(
+                    Player1,
+                    Player2,
+                    Team1,
+                    Team2,
+                    Killlist,
+                    warnings,
+                    win,
+                );
+            }
         </script>
     </body>
 </html>
